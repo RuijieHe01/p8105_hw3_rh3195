@@ -95,3 +95,60 @@ mean_hour
 ```
 
 > Above table shows the mean hour of the day at which Pink Lady Apples and Coffee Ice Cream are ordered on each day of the week. The variable `order_dow` tells the day of the week the order was placed on. The table has been `pivot_wider` to format for human readers. Pink lady apple were bought slightly earlier in the day 1, 2, 4, 6 each week than coffee ice cream. And both items were likely to be bought in the afternoon.
+
+## Problem 2
+
+
+```{r}
+library(p8105.datasets)
+data("brfss_smart2010")
+```
+
+**Data cleaning**
+
+```{r}
+brfss_df =
+  brfss_smart2010 %>% 
+  janitor::clean_names() %>% 
+  filter(topic == "Overall Health",
+         response %in% c("Excellent", "Very good", "Good", "Fair", "Poor")) %>% 
+  mutate(response = factor(response, levels = c("Poor", "Fair", "Good", "Very good", "Excellent"), order = TRUE)) %>% 
+  rename("state" = "locationabbr") %>% 
+  select(topic, response, everything())
+
+brfss_df
+
+```
+
+
+> The cleaned dataset is focusing on `topic` of "overall health" and only includes `responses` from "excellent" to "poor".
+
+**States observed at >= 7 locations in 2002 and 2010**
+
+```{r states 2002}
+states_observed_2002 =
+  brfss_df %>% 
+  filter(year == 2002) %>% 
+  group_by(state) %>% 
+  summarize(n_observation = n_distinct(locationdesc)) %>% 
+  filter(n_observation > 6) %>% 
+  arrange(desc(n_observation))
+
+states_observed_2002
+```
+
+> In 2002, the states that were observed at 7 or more locations are PA, MA, NJ, CT, NC, and FL.
+
+```{r states 2010}
+states_observed_2010 =
+  brfss_df %>% 
+  filter(year == 2010) %>% 
+  group_by(state) %>%
+  summarize(n_observation = n_distinct(locationdesc)) %>% 
+  filter(n_observation > 6) %>% 
+  arrange(desc(n_observation))
+
+states_observed_2010
+```
+
+> In 2010, 14 states were observed at 7 or more locations, which are FL, NJ, TX, CA, MD, NC, NE, WA, MA, NY.

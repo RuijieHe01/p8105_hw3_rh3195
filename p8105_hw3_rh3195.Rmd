@@ -1,0 +1,97 @@
+---
+title: "p8105_hw3_rh3195"
+author: "Ruijie He"
+date: "2023-10-14"
+output: github_document
+---
+
+```{r setup, include=FALSE}
+library(tidyverse)
+library(p8105.datasets)
+knitr::opts_chunk$set(echo = TRUE)
+library(ggridges)
+```
+
+## Problem 1
+
+```{r}
+data("instacart")
+
+instacart = 
+  instacart |> 
+  as_tibble()
+```
+
+> This dataset contains `r nrow(instacart)` rows, which represents the ordered items. And it contains `r nrow(instacart)` columns. Some key variables specifies the informations of each order, like `order_number`, `product_name`, `aisle`, `department`, and `order_dow`. They tells the time of the orders placed and some purchase activities for each product. In this dataset, there are `r instacart |> select(product_id) |> distinct() |> count()` products found in `r instacart |> select(user_id, order_id) |> distinct() |> count()` orders from `r instacart |> select(user_id) |> distinct() |> count()` distinct users.
+
+**Aisle number**
+
+```{r}
+instacart %>% 
+  count(aisle) %>% 
+  arrange(desc(n))
+```
+
+> There are 134 aisles, and the aisle has the most items is the fresh vegetables aisle.
+
+**Make a plot (aisle has >10000)**
+
+
+```{r}
+aisle_plot = 
+  instacart %>% 
+  janitor::clean_names() %>% 
+  count(aisle) %>% 
+  filter(n>10000) %>% 
+  ggplot(aes( x= reorder(aisle, n), y = n)) +
+  geom_point() +
+  labs(
+    title = "Number of Items",
+    x = "Aisle number",
+    y = "Number of item",
+    caption = "Data from instacart online grocery shopping dataset 2017"
+  ) +
+  theme(axis.text.x = element_text(angle = 90, hjust = 1))
+```
+> The plot shows the number of items in selected aisles in an ascending order. Only aisles that contains more than 10000 items were selected.
+
+**Three most popular items table**
+
+```{r, message = FALSE}
+popular_items =
+  instacart %>% 
+  filter(aisle %in% c("baking ingredients", "dog food care", "packaged vegetables fruits")) %>% 
+  group_by(aisle, product_name) %>% 
+  summarize(number_of_ordered_times = n()) %>% 
+  arrange(aisle, -number_of_ordered_times) %>% 
+  do(top_n(., 3, wt = number_of_ordered_times))
+
+popular_items_table =
+  knitr::kable(popular_items,
+      col.names = c("Aisle", "Product name", "Number of ordered times"),
+      title = "The 3 Most popular items in selected aisle")
+```
+
+> This table shows the three most popular item in `baking ingredients`, `dog food care`, and `packaged vegetables fruits` and lists the number of times each has been ordered.
+
+**A 2 x 7 table**
+
+As the `order_dow` tells the day of the week the order was placed on.
+
+```{r}
+mean_hour =
+  instacart %>% 
+  filter(product_name %in% c("Pink Lady Apples", "Coffee Ice Cream")) %>% 
+  group_by(product_name, order_dow) %>% 
+  summarize(mean_hour = mean(order_hour_of_day)) %>% 
+  pivot_wider(
+    names_from = order_dow, 
+    values_from = mean_hour) %>% 
+
+knitr::kable(digits = 3,
+             title = "Mean Hour Ordered of Selected Items")
+  
+mean_hour
+```
+
+> Above table shows the mean hour of the day at which Pink Lady Apples and Coffee Ice Cream are ordered on each day of the week. The variable `order_dow` tells the day of the week the order was placed on. The table has been `pivot_wider` to format for human readers. Pink lady apple were bought slightly earlier in the day 1, 2, 4, 6 each week than coffee ice cream. And both items were likely to be bought in the afternoon.

@@ -52,6 +52,8 @@ aisle_plot =
     caption = "Data from instacart online grocery shopping dataset 2017"
   ) +
   theme(axis.text.x = element_text(angle = 90, hjust = 1))
+
+aisle_plot
 ```
 > The plot shows the number of items in selected aisles in an ascending order. Only aisles that contains more than 10000 items were selected.
 
@@ -117,7 +119,6 @@ brfss_df =
   select(topic, response, everything())
 
 brfss_df
-
 ```
 
 

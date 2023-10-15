@@ -274,8 +274,8 @@ age_distribution_plot =
 print(age_distribution_plot)
 ```
 
-> The boxplot of age distribution by sex in each education category.
- 
+> The boxplot shows the age distribution by sex in each education category. The female participants with high school equivalent education level has the highest mean age value, and the male participants in highest education level group has the lowest. The mean values for age distribution are similar between two genders in lowest education levels. The difference of mean between two genders values disparse the most in the middle level education level among all three education level.
+
 **Create total activity variable for each participants, and plot these total activities (y-axis) against age (x-axis).**
  
 ```{r acc_total_plot}

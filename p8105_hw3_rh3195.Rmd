@@ -72,6 +72,8 @@ popular_items_table =
   knitr::kable(popular_items,
       col.names = c("Aisle", "Product name", "Number of ordered times"),
       title = "The 3 Most popular items in selected aisle")
+
+print(popular_items_table)
 ```
 
 > This table shows the three most popular item in `baking ingredients`, `dog food care`, and `packaged vegetables fruits` and lists the number of times each has been ordered.

@@ -273,7 +273,8 @@ age_distribution_plot =
 
 print(age_distribution_plot)
 ```
- > Comment
+
+> The boxplot of age distribution by sex in each education category.
  
 **Create total activity variable for each participants, and plot these total activities (y-axis) against age (x-axis).**
  
@@ -295,7 +296,7 @@ acc_total_plot =
 print(acc_total_plot)
 ```
 
-> Comment
+>The smooth curve of the plots indicates in any of the three education level, younger participants have greater activity than participants in older age. And for participants having high school equivalent education level or higher, female participants have greater activity than male participants. Younger females with education level less than high school has the most activity.
 
 **Three-panel plots for 24-hour activity time courses for each education level**
 
@@ -320,4 +321,4 @@ allday_activity_plot =
 allday_activity_plot
 ```
 
-> Comment
+>The plots represents the activity of partcipants in 24 hours. The data points are colored by sex. Partial male participants in the highest education level have the most activity in the night time of 24 hours. Among highest education level participants, there has also relative greater activity in the morning. However, the smooth curve of among all three education levels are similar for both genders especially during the day time.

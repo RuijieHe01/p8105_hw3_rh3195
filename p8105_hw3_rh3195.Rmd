@@ -22,7 +22,7 @@ instacart =
   as_tibble()
 ```
 
-> This dataset contains `r nrow(instacart)` rows, which represents the ordered items. And it contains `r nrow(instacart)` columns. Some key variables specifies the informations of each order, like `order_number`, `product_name`, `aisle`, `department`, and `order_dow`. They tells the time of the orders placed and some purchase activities for each product. In this dataset, there are `r instacart |> select(product_id) |> distinct() |> count()` products found in `r instacart |> select(user_id, order_id) |> distinct() |> count()` orders from `r instacart |> select(user_id) |> distinct() |> count()` distinct users.
+> This dataset contains `r nrow(instacart)` rows, which represents the ordered items. And it contains `r ncol(instacart)` columns. Some key variables specifies the informations of each order, like `order_number`, `product_name`, `aisle`, `department`, and `order_dow`. They tells the time of the orders placed and some purchase activities for each product. In this dataset, there are `r instacart |> select(product_id) |> distinct() |> count()` products found in `r instacart |> select(user_id, order_id) |> distinct() |> count()` orders from `r instacart |> select(user_id) |> distinct() |> count()` distinct users.
 
 **Aisle number**
 
